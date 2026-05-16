@@ -18,9 +18,9 @@ const PALETTE = ["#00f5ff","#ff2d78","#a259ff","#39ff14","#ff6b35","#ffd700","#f
 const STATUSES = ["online","in-game","offline"];
 const RANK_W  = { Challenger:6,"Grand Master":5,Master:4,Diamond:3,Platinum:2,Gold:1 };
 const STATUS  = {
-  online:  { label:"ONLINE",  color:"#39ff14", pulse:true  },
-  "in-game":{ label:"IN GAME", color:"#ff6b35", pulse:true  },
-  offline: { label:"OFFLINE", color:"#444",    pulse:false },
+  online:  { label:"HEAD",  color:"#39ff14", pulse:true  },
+  "in-game":{ label:"SUPPORT", color:"#ff6b35", pulse:true  },
+  offline: { label:"MEMBER", color:"#444",    pulse:false },
 };
 const M = "'Press Start 2P',system-ui";
 
@@ -641,7 +641,7 @@ function RosterPage({ members, setMembers, setPage, onBack }) {
             style={{ flex:1, minWidth:160, background:"#0a0a1a", border:"1px solid #1a1a3a",
               borderRadius:4, padding:"8px 12px", color:"#e8e8ff", fontSize:11, letterSpacing:1,
               outline:"none", fontFamily:M }} />
-          {[["all","ALL"],["online","ONLINE"],["in-game","IN GAME"],["offline","OFFLINE"]].map(([v,l]) => (
+          {[["all","ALL"],["head","HEAD"],["support","SUPPORT"],["member","MEMBER"]].map(([v,l]) => (
             <button key={v} onClick={() => setFilter(v)} style={filterBtnStyle(v)}>{l}</button>
           ))}
           <select value={sort} onChange={e => setSort(e.target.value)}
