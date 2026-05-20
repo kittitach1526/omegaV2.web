@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบหลังบ้านสภา | FiveM Council Admin</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-color: #1f2833;
+            --text-color: #c5a880;
+            --pure-white: #ffffff;
+            --accent-color: #9e2a2b; /* แดงสภา */
+            --gold-color: #d4af37; /* ทอง */
+            --success-color: #38b000;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--pure-white);
+            line-height: 1.6;
+            padding: 40px 20px;
+        }
+
+        .admin-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .header-title {
+            text-align: center;
+            margin-bottom: 40px;
+            border-bottom: 2px solid var(--gold-color);
+            padding-bottom: 20px;
+        }
+
+        .header-title h1 {
+            color: var(--gold-color);
+            font-size: 32px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .header-title p {
+            color: #aaa;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Form Style */
+        .form-card {
+            background-color: var(--card-color);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .form-card h2 {
+            color: var(--gold-color);
+            font-size: 22px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+            padding-left: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+            font-size: 14px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px;
+            background-color: #11151c;
+            border: 1px solid #444;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--gold-color);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        textarea.form-control {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, var(--accent-color), #6e1a1b);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.3s;
+            text-transform: uppercase;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, #bd3a3c, var(--accent-color));
+            transform: translateY(-2px);
+        }
+
+        /* Live Preview / List Table */
+        .list-card {
+            background-color: var(--card-color);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 30px;
+        }
+
+        .list-card h2 {
+            color: var(--gold-color);
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+
+        .announcement-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .announcement-table th, .announcement-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .announcement-table th {
+            background-color: #151b24;
+            color: var(--gold-color);
+            font-size: 14px;
+        }
+
+        .announcement-table td {
+            font-size: 15px;
+        }
+
+        .badge {
+            padding: 4px 8px;
+            font-size: 11px;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+        }
+
+        .btn-delete {
+            background-color: #c1121f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+        }
+
+        .btn-delete:hover {
+            background-color: #780000;
+        }
+
+        .no-data {
+            text-align: center;
+            color: #777;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="admin-container">
+        
+        <!-- หัวข้อหลัก -->
+        <div class="header-title">
+            <h1>COUNCIL ANNOUNCEMENT MANAGEMENT</h1>
+            <p>ระบบกรอกข้อมูลและจัดการประกาศสภาแห่งรัฐ (สำหรับเจ้าหน้าที่สภาเท่านั้น)</p>
+        </div>
+
+        <!-- ฟอร์มกรอกข้อมูล -->
+        <div class="form-card">
+            <h2>สร้างประกาศใหม่</h2>
+            <form id="announcementForm">
+                
+                <div class="form-group">
+                    <label for="announceType">ประเภทประกาศ</label>
+                    <select id="announceType" class="form-control" required>
+                        <option value="ประกาศด่วน" style="color: #9e2a2b;">🔴 ประกาศด่วน (สีแดง)</option>
+                        <option value="กฎหมายใหม่" style="color: #2a6f97;">🔵 กฎหมายใหม่ (สีน้ำเงิน)</option>
+                        <option value="กิจกรรม" style="color: #38b000;">🟢 กิจกรรมเมือง (สีเขียว)</option>
+                        <option value="ข่าวสารทั่วไป" style="color: #d4af37;">🟡 ข่าวสารทั่วไป (สีทอง)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="announceTitle">หัวข้อประกาศ</label>
+                    <input type="text" id="announceTitle" class="form-control" placeholder="เช่น ปรับเพิ่มบทลงโทษคดีปล้นธนาคาร" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="announceContent">เนื้อหา / รายละเอียดประกาศ</label>
+                    <textarea id="announceContent" class="form-control" placeholder="กรอกรายละเอียดข้อบังคับ หรือเนื้อหาที่สภาต้องการชี้แจง..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn-submit">อนุมัติและบันทึกประกาศ</button>
+            </form>
+        </div>
+
+        <!-- ตารางแสดงผลประกาศที่มีอยู่ -->
+        <div class="list-card">
+            <h2>รายการประกาศปัจจุบันในระบบ</h2>
+            <div style="overflow-x: auto;">
+                <table class="announcement-table">
+                    <thead>
+                        <tr>
+                            <th>ประเภท</th>
+                            <th>หัวข้อประกาศ</th>
+                            <th>วันที่ประกาศ</th>
+                            <th style="text-align: center;">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="announcementList">
+                        <!-- ข้อมูลจำลองเริ่มต้น -->
+                        <tr>
+                            <td><span class="badge" style="background-color: #9e2a2b;">ประกาศด่วน</span></td>
+                            <td>ปรับโครงสร้างภาษีประชาชนประจำเดือน</td>
+                            <td style="color: #888;">16 พฤษภาคม 2026</td>
+                            <td style="text-align: center;"><button class="btn-delete" onclick="deleteRow(this)">ลบ</button></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge" style="background-color: #2a6f97;">กฎหมายใหม่</span></td>
+                            <td>เพิ่มบทลงโทษคดีครอบครองอาวุธเถื่อน</td>
+                            <td style="color: #888;">10 พฤษภาคม 2026</td>
+                            <td style="text-align: center;"><button class="btn-delete" onclick="deleteRow(this)">ลบ</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- สคริปต์ระบบบันทึกข้อมูลจำลอง -->
+    <script>
+        document.getElementById('announcementForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // ป้องกันการรีเฟรชหน้าจอ
+
+            // ดึงค่าจากฟอร์ม
+            const type = document.getElementById('announceType').value;
+            const title = document.getElementById('announceTitle').value;
+            const content = document.getElementById('announceContent').value;
+            
+            // ดึงวันที่ปัจจุบันมาจัดรูปแบบภาษาไทย
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            const today = new Date().toLocaleDateString('th-TH', options);
+
+            // กำหนดสีของ Badge ตามประเภท
+            let badgeColor = '#d4af37';
+            if (type === 'ประกาศด่วน') badgeColor = '#9e2a2b';
+            else if (type === 'กฎหมายใหม่') badgeColor = '#2a6f97';
+            else if (type === 'กิจกรรม') badgeColor = '#38b000';
+
+            // สร้างแถวตารางใหม่ (Row)
+            const tableBody = document.getElementById('announcementList');
+            const newRow = document.createElement('tr');
+
+            newRow.innerHTML = `
+                <td><span class="badge" style="background-color: ${badgeColor};">${type}</span></td>
+                <td><strong>${title}</strong></td>
+                <td style="color: #888;">${today}</td>
+                <td style="text-align: center;"><button class="btn-delete" onclick="deleteRow(this)">ลบ</button></td>
+            `;
+
+            // เพิ่มแถวใหม่เข้าไปในตารางด้านบนสุด
+            tableBody.insertBefore(newRow, tableBody.firstChild);
+
+            // แจ้งเตือนเมื่อสำเร็จและรีเซ็ตฟอร์ม
+            alert('บันทึกและอัปเดตประกาศสำเร็จ!');
+            document.getElementById('announcementForm').reset();
+        });
+
+        // ฟังก์ชันลบแถวประกาศ
+        function deleteRow(button) {
+            if(confirm('คุณแน่ใจหรือไม่ว่าต้องการลบประกาศนี้?')) {
+                const row = button.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+            }
+        }
+    </script>
+</body>
+</html>

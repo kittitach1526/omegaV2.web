@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>สภาแห่งรัฐ | FiveM City</title>
+    <style>
+        :root {
+            --bg-color: #0b0c10;
+            --card-color: #1f2833;
+            --text-color: #c5a880;
+            --pure-white: #ffffff;
+            --accent-color: #9e2a2b; /* แดงสภา */
+            --gold-color: #d4af37; /* ทอง */
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--pure-white);
+            line-height: 1.6;
+        }
+
+        /* Header & Navigation */
+        header {
+            background: linear-gradient(135deg, #111, #222);
+            border-bottom: 2px solid var(--gold-color);
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--gold-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        nav a {
+            color: var(--pure-white);
+            text-decoration: none;
+            margin-left: 20px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--gold-color);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9)), url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #333;
+        }
+
+        .hero h1 {
+            font-size: 45px;
+            color: var(--gold-color);
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: #ccc;
+            max-width: 600px;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        section {
+            margin-bottom: 60px;
+            scroll-margin-top: 100px;
+        }
+
+        h2 {
+            font-size: 28px;
+            color: var(--gold-color);
+            border-left: 5px solid var(--accent-color);
+            padding-left: 15px;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        /* Grid Cardsสำหรับประกาศ */
+        .announcement-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #333;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--gold-color);
+        }
+
+        .card-body {
+            padding: 25px;
+        }
+
+        .badge {
+            background-color: var(--accent-color);
+            color: white;
+            padding: 5px 10px;
+            font-size: 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+
+        .badge.law { background-color: #2a6f97; }
+        .badge.event { background-color: #38b000; }
+
+        .card-title {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: var(--gold-color);
+        }
+
+        .card-date {
+            font-size: 13px;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        /* Council Members Table */
+        .council-table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .council-table th, .council-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        .council-table th {
+            background-color: #151b24;
+            color: var(--gold-color);
+        }
+
+        .council-table tr:hover {
+            background-color: #25303f;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #050505;
+            text-align: center;
+            padding: 30px;
+            color: #666;
+            border-top: 1px solid #222;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header หน้าเว็บ -->
+    <header>
+        <div class="logo">LOS SANTOS COUNCIL</div>
+        <nav>
+            <a href="#announcements">ประกาศล่าสุด</a>
+            <a href="#laws">ประมวลกฎหมาย</a>
+            <a href="#members">รายชื่อสภา</a>
+        </nav>
+    </header>
+
+    <!-- หน้าปกเว็ป (Hero) -->
+    <div class="hero">
+        <h1>สภาบริหารส่วนกลางแห่งรัฐ</h1>
+        <p>ศูนย์กลางการประกาศกฎหมาย ข่าวสาร และความโปร่งใสของประชาชนทุกคนในประเทศ</p>
+    </div>
+
+    <!-- เนื้อหาหลัก -->
+    <div class="container">
+
+        <!-- เซกชั่น: ประกาศล่าสุด -->
+        <section id="announcements">
+            <h2>ประกาศสำคัญจากสภา</h2>
+            <div class="announcement-grid">
+                
+                <!-- การ์ดประกาศที่ 1 -->
+                <div class="card">
+                    <div class="card-body">
+                        <span class="badge">ประกาศด่วน</span>
+                        <h3 class="card-title">ปรับโครงสร้างภาษีประชาชนประจำเดือน</h3>
+                        <p class="card-date">อัปเดตเมื่อ: 16 พฤษภาคม 2026</p>
+                        <p>สภามีมติปรับเปลี่ยนอัตราภาษีที่ดินและยานพาหนะใหม่ เพื่อนำงบประมาณไปสนับสนุนหน่วยงานหมอและตำรวจ...</p>
+                    </div>
+                </div>
+
+                <!-- การ์ดประกาศที่ 2 -->
+                <div class="card">
+                    <div class="card-body">
+                        <span class="badge event">กิจกรรม</span>
+                        <h3 class="card-title">เปิดรับสมัครเลือกตั้งสภาสมัยหน้า</h3>
+                        <p class="card-date">อัปเดตเมื่อ: 14 พฤษภาคม 2026</p>
+                        <p>เปิดโอกาสให้ประชาชนที่สนใจเข้ามาร่วมพัฒนาประเทศ เปิดรับสมัครตั้งแต่วันนี้ ถึงสิ้นเดือนนี้เท่านั้น</p>
+                    </div>
+                </div>
+
+                <!-- การ์ดประกาศที่ 3 -->
+                <div class="card">
+                    <div class="card-body">
+                        <span class="badge law">กฎหมายใหม่</span>
+                        <h3 class="card-title">เพิ่มบทลงโทษคดีครอบครองอาวุธเถื่อน</h3>
+                        <p class="card-date">อัปเดตเมื่อ: 10 พฤษภาคม 2026</p>
+                        <p>ปรับเพิ่มโทษจำคุกเพิ่มขึ้น 50% และปรับเงินเพิ่มขึ้นสำหรับผู้ที่ครอบครองอาวุธหนักโดยไม่ได้รับอนุญาต</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- เซกชั่น: ประมวลกฎหมาย -->
+        <section id="laws">
+            <h2>ประมวลกฎหมายที่สำคัญ</h2>
+            <div class="announcement-grid">
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" style="color: var(--pure-white);">กฎหมายความมั่นคง (IC)</h3>
+                        <p>รวมบทลงโทษเกี่ยวกับการปล้น, การฆาตกรรม, การกบฏต่อรัฐ และการทำร้ายเจ้าพนักงาน</p>
+                        <a href="#" style="color: var(--gold-color); text-decoration: none; font-size: 14px; display: inline-block; margin-top: 15px;">อ่านเพิ่มเติม →</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h3 class="card-title" style="color: var(--pure-white);">กฎระเบียบประเทศ (OOC)</h3>
+                        <p>กฎการเล่น Roleplay, การห้ามเซฟโซน, กฎ Combat Log, และบทลงโทษสำหรับการทำผิดกฎเมือง</p>
+                        <a href="#" style="color: var(--gold-color); text-decoration: none; font-size: 14px; display: inline-block; margin-top: 15px;">อ่านเพิ่มเติม →</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- เซกชั่น: รายชื่อสภา -->
+        <section id="members">
+            <h2>ทำเนียบคณะมนตรีสภา</h2>
+            <table class="council-table">
+                <thead>
+                    <tr>
+                        <th>ตำแหน่ง</th>
+                        <th>ชื่อ-นามสกุล (IC)</th>
+                        <th>ฝ่ายที่สังกัด</th>
+                        <th>สถานะ</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>ประธานสภา</strong></td>
+                        <td>Arthur Shelby</td>
+                        <td>ฝ่ายบริหารส่วนกลาง</td>
+                        <td style="color: #38b000;">ปฏิบัติหน้าที่</td>
+                    </tr>
+                    <tr>
+                        <td><strong>รองประธานสภา</strong></td>
+                        <td>John Doe</td>
+                        <td>ฝ่ายความมั่นคง / ตำรวจ</td>
+                        <td style="color: #38b000;">ปฏิบัติหน้าที่</td>
+                    </tr>
+                    <tr>
+                        <td><strong>มนตรีฝ่ายกฎหมาย</strong></td>
+                        <td>Jane Smith</td>
+                        <td>ฝ่ายตุลาการ / ศาล</td>
+                        <td style="color: #38b000;">ปฏิบัติหน้าที่</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </div>
+
+    <!-- ส่วนท้ายเว็บ -->
+    <footer>
+        <p>&copy; 2026 Los Santos Government. All Rights Reserved. เว็บไซต์นี้จัดทำขึ้นเพื่อความบันเทิงในเกม FiveM เท่านั้น</p>
+    </footer>
+
+</body>
+</html>
