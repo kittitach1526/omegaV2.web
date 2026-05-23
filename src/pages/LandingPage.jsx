@@ -7,13 +7,16 @@
 import { useState, useEffect } from "react";
 import { INIT_MEMBERS, MONO } from "../constants.js";
 import { Glitch, Counter, Corner } from "../components/index.jsx";
+import { getMembers } from "../services/get_count.js"; // ฟังก์ชันดึงข้อมูลสมาชิกจาก Firebase
+
+
 
 // ─── Boot sequence lines — แก้ข้อความ terminal ─
 const BOOT_LINES = [
-  "> INITIALIZING PHANTOM.PROTOCOL ...",
-  "> LOADING OPERATIVE DATABASE ...",
+  "> INITIALIZING SYSTEM ...",
+  "> LOADING DATABASE ...",
   "> DECRYPTING MEMBER RECORDS ...",
-  "> NEURAL LINK ESTABLISHED ...",
+  // "> NEURAL LINK ESTABLISHED ...",
   "> ALL SYSTEMS NOMINAL ■",
 ];
 
@@ -46,9 +49,22 @@ export default function LandingPage({ onEnter }) {
   const [phase,   setPhase]   = useState(0);   // 0 = boot, 1 = show hero
   const [lines,   setLines]   = useState([]);
   const [exiting, setExiting] = useState(false);
+  const [count_user, setCount_user] = useState(); // สำหรับส่งต่อไปหน้าอื่น ๆ
+  const [members, setMembers] = useState([]);
+  const [totalMembers, setTotalMembers] = useState(0);
 
   // Boot sequence animation
   useEffect(() => {
+
+    const loadMembers = async () => {
+      const data = await getMembers();
+
+      setMembers(data.members);
+      setTotalMembers(data.total);
+    };
+
+    loadMembers();
+
     let i = 0;
     const t = setInterval(() => {
       setLines(l => [...l, BOOT_LINES[i]]);
@@ -68,10 +84,10 @@ export default function LandingPage({ onEnter }) {
 
   // สถิติที่แสดงบน landing — แก้ได้
   const stats = [
-    ["MEMBERS",  INIT_MEMBERS.length],
-    ["TOTAL KILLS", INIT_MEMBERS.reduce((a, m) => a + m.kills, 0)],
-    ["AVG K/D",     +(INIT_MEMBERS.reduce((a, m) => a + m.kd, 0) / INIT_MEMBERS.length).toFixed(1)],
-    ["ACTIVE NOW",  INIT_MEMBERS.filter(m => m.status !== "offline").length],
+    ["MEMBERS",  10],
+    ["TOTAL KILLS", 50],
+    ["AVG K/D",     2.5],
+    ["ACTIVE NOW",  8],
   ];
 
   return (
